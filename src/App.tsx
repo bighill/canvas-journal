@@ -1,23 +1,31 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
+import JournalContext from "./JournalContext";
 import routes from "./routes";
 
 function App() {
+  const mainRef = useRef<HTMLDivElement>(null);
   const [activeJournal, setActiveJournal] = useState<number | null>(null);
 
   const renderJournal = () => {
-    if (activeJournal !== null) {
+    if (activeJournal !== null && mainRef.current !== null) {
       const Component = routes[activeJournal].component;
-      return <Component />;
+      const value = {
+        width: mainRef.current.clientWidth,
+        height: mainRef.current.clientHeight,
+      };
+      return (
+        <JournalContext.Provider value={value}>
+          <Component />
+        </JournalContext.Provider>
+      );
     }
     return null;
   };
 
   return (
     <>
-      <main>
-        <div>{renderJournal()}</div>
-      </main>
+      <main ref={mainRef}>{renderJournal()}</main>
       <footer>
         {routes.map((route, i) => (
           <span

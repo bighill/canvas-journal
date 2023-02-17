@@ -5,10 +5,19 @@ const AlphaCircle = () => {
     ctx: CanvasRenderingContext2D,
     frameCount: number
   ) => {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    const w = ctx.canvas.width;
+    const h = ctx.canvas.height;
+
+    ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = "orange";
     ctx.beginPath();
-    ctx.arc(50, 100, 20 * Math.sin(frameCount * 0.05) ** 2, 0, 2 * Math.PI);
+    ctx.arc(
+      w / 2,
+      h / 2,
+      20 * Math.sin(frameCount * 0.05) ** 2,
+      0,
+      2 * Math.PI
+    );
     ctx.fill();
   };
 

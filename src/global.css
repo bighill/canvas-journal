@@ -9,11 +9,6 @@ body,
   flex-direction: column;
 }
 
-main {
-  flex-grow: 1;
-  overflow-y: auto;
-}
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -29,6 +24,12 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+main {
+  flex-grow: 1;
+  overflow-y: auto;
+  position: relative;
 }
 
 footer {
