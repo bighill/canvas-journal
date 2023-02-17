@@ -1,19 +1,33 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState } from "react";
 
-import J000_Circle from "./journal/J000_Circle";
+import routes from "./routes";
 
 function App() {
+  const [activeJournal, setActiveJournal] = useState<number | null>(null);
+
+  const renderJournal = () => {
+    if (activeJournal !== null) {
+      const Component = routes[activeJournal].component;
+      return <Component />;
+    }
+    return null;
+  };
+
   return (
     <>
       <main>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<J000_Circle />} />
-          </Routes>
-        </BrowserRouter>
+        <div>{renderJournal()}</div>
       </main>
       <footer>
-        <em>footer</em>
+        {routes.map((route, i) => (
+          <span
+            key={route.title}
+            className="btn"
+            onClick={() => setActiveJournal(i)}
+          >
+            {route.title}
+          </span>
+        ))}
       </footer>
     </>
   );
