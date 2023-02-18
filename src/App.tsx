@@ -27,6 +27,9 @@ function App() {
     <>
       <main ref={mainRef}>{renderJournal()}</main>
       <footer>
+        <span className="btn" onClick={() => setActiveJournal(null)}>
+          Home
+        </span>
         {routes.map((route, i) => (
           <span
             key={route.title}

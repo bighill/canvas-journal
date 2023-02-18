@@ -9,7 +9,7 @@ const AlphaCircle = () => {
     const h = ctx.canvas.height;
 
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = "orange";
+    ctx.fillStyle = "skyblue";
     ctx.beginPath();
     ctx.arc(
       w / 2,
