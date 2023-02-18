@@ -1,5 +1,5 @@
 import AlphaCircle from "./journal/AlphaCircle";
-import BravoFoo from "./journal/BravoFoo";
+import BravoFoo from "./journal/BravoFoo/BravoFoo";
 
 interface Route {
   title: string;
