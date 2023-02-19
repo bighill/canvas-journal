@@ -1,6 +1,6 @@
 import Canvas from "../../component/Canvas";
-import draw from "./draw";
+import bravoFoo from "./bravoFoo";
 
-const BravoFoo = () => <Canvas draw={draw} />;
+const BravoFoo = () => <Canvas draw={bravoFoo} />;
 
 export default BravoFoo;

@@ -19,23 +19,34 @@ const data: Data = {
   delta: 0,
   deltaUp: true,
   variant: variant.STATIC,
-  // variant: variant.SHAKE_X,
-  // variant: variant.SHAKE_Y,
-  // variant: variant.REVOLVE,
 };
 
-const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
+const bravoFoo = (
+  ctx: CanvasRenderingContext2D,
+  clickEv: MouseEvent | null
+) => {
   const w = ctx.canvas.width;
   const h = ctx.canvas.height;
-
-  ctx.clearRect(0, 0, w, h);
 
   const xSpace = Math.floor(w / data.gridNum);
   const ySpace = Math.floor(h / data.gridNum);
 
-  // TODO
-  // listen for click
-  // toggle variant
+  ctx.clearRect(0, 0, w, h);
+
+  if (clickEv) {
+    switch (data.variant) {
+      case variant.STATIC:
+      default:
+        data.variant = variant.SHAKE_X;
+        break;
+      case variant.SHAKE_X:
+        data.variant = variant.SHAKE_Y;
+        break;
+      case variant.SHAKE_Y:
+        data.variant = variant.STATIC;
+        break;
+    }
+  }
 
   if (data.delta === 10) {
     data.deltaUp = false;
@@ -67,4 +78,4 @@ const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
   }
 };
 
-export default draw;
+export default bravoFoo;
