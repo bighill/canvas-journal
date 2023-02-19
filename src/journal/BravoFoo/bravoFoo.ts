@@ -48,6 +48,8 @@ const bravoFoo = (
     }
   }
 
+  // TODO put this delta logic somewhere shared
+
   if (data.delta === 10) {
     data.deltaUp = false;
   }
