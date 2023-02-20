@@ -21,7 +21,7 @@ const data: Data = {
   variant: variant.STATIC,
 };
 
-const bravoFoo = (
+const bravoDots = (
   ctx: CanvasRenderingContext2D,
   clickEv: MouseEvent | null
 ) => {
@@ -73,11 +73,11 @@ const bravoFoo = (
           dot({ ctx, x: x * xSpace, y: y * ySpace + data.delta });
           break;
         case variant.REVOLVE:
-          // TODO
+          // TODO revolving dots
           break;
       }
     }
   }
 };
 
-export default bravoFoo;
+export default bravoDots;

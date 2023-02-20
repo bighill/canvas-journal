@@ -1,5 +1,5 @@
-import AlphaCircle from "./journal/AlphaCircle";
-import BravoFoo from "./journal/BravoFoo/BravoFoo";
+import AlphaCircle from "./journal/AlphaCircle/AlphaCircle";
+import BravoDots from "./journal/BravoDots/BravoDots";
 
 interface Route {
   title: string;
@@ -8,7 +8,7 @@ interface Route {
 
 const routes: Route[] = [
   { title: "A. Circle", component: AlphaCircle },
-  { title: "B. Foo", component: BravoFoo },
+  { title: "B. Dots", component: BravoDots },
   // { title: "C. Foo", component: Charlie },
   // { title: "D. Foo", component: Delta },
   // { title: "E. Foo", component: Echo },
