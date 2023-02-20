@@ -1,44 +1,48 @@
-import { useRef, useState } from "react";
-
-import JournalContext from "./JournalContext";
-import routes from "./routes";
+import { useEffect, useRef, useState } from "react";
+import Canvas from "./component/Canvas";
+import alphaCircle from "./journal/AlphaCircle/alphaCircle";
+import bravoDots from "./journal/BravoDots/bravoDots";
 
 function App() {
   const mainRef = useRef<HTMLDivElement>(null);
-  const [activeJournal, setActiveJournal] = useState<number | null>(null);
+  const [activeJournal, setActiveJournal] = useState<string | null>(null);
+  const [mainWidth, setMainWidth] = useState(0);
+  const [mainHeight, setMainHeight] = useState(0);
 
-  const renderJournal = () => {
-    if (activeJournal !== null && mainRef.current !== null) {
-      const Component = routes[activeJournal].component;
-      const value = {
-        width: mainRef.current.clientWidth,
-        height: mainRef.current.clientHeight,
-      };
-      return (
-        <JournalContext.Provider value={value}>
-          <Component />
-        </JournalContext.Provider>
-      );
+  useEffect(() => {
+    if (!mainRef.current) {
+      return;
     }
-    return null;
-  };
+    const resizeObserver = new ResizeObserver(() => {
+      setMainWidth(mainRef.current ? mainRef.current?.clientWidth : 0);
+      setMainHeight(mainRef.current ? mainRef.current?.clientHeight : 0);
+    });
+    resizeObserver.observe(mainRef.current);
+
+    return () => resizeObserver.disconnect();
+  }, []);
 
   return (
     <>
-      <main ref={mainRef}>{renderJournal()}</main>
+      <main ref={mainRef}>
+        {activeJournal === "AlphaCircle" && (
+          <Canvas draw={alphaCircle} width={mainWidth} height={mainHeight} />
+        )}
+        {activeJournal === "BravoDots" && (
+          <Canvas draw={bravoDots} width={mainWidth} height={mainHeight} />
+        )}
+      </main>
+
       <footer>
         <span className="btn" onClick={() => setActiveJournal(null)}>
           Home
         </span>
-        {routes.map((route, i) => (
-          <span
-            key={route.title}
-            className="btn"
-            onClick={() => setActiveJournal(i)}
-          >
-            {route.title}
-          </span>
-        ))}
+        <span className="btn" onClick={() => setActiveJournal("AlphaCircle")}>
+          AlphaCircle
+        </span>
+        <span className="btn" onClick={() => setActiveJournal("BravoDots")}>
+          BravoDots
+        </span>
       </footer>
     </>
   );

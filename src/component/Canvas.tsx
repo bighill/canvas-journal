@@ -1,16 +1,14 @@
-import { FC, useContext, useEffect, useRef } from "react";
-
-import JournalContext from "../JournalContext";
+import { FC, RefObject, useEffect, useRef } from "react";
 
 interface Props {
   draw: (ctx: CanvasRenderingContext2D, clickEv: MouseEvent | null) => void;
+  mainRef?: RefObject<HTMLDivElement>;
+  width: number;
+  height: number;
 }
 
-const Canvas: FC<Props> = ({ draw }) => {
-  const { width, height } = useContext(JournalContext);
+const Canvas: FC<Props> = ({ draw, width, height }) => {
   const canvasRef = useRef(null);
-
-  // TODO listen for resize
 
   useEffect(() => {
     const canvas = canvasRef.current as unknown as HTMLCanvasElement;
@@ -18,9 +16,7 @@ const Canvas: FC<Props> = ({ draw }) => {
     let animationFrameId: number;
     let clickEv: MouseEvent | null = null;
 
-    const handleClick = (ev: MouseEvent) => {
-      clickEv = ev;
-    };
+    const handleClick = (ev: MouseEvent) => (clickEv = ev);
 
     canvas.addEventListener("click", handleClick);
 

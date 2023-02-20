@@ -12,6 +12,7 @@ interface Data {
   delta: number;
   deltaUp: boolean;
   variant: string;
+  speed: number;
 }
 
 const data: Data = {
@@ -19,6 +20,7 @@ const data: Data = {
   delta: 0,
   deltaUp: true,
   variant: variant.STATIC,
+  speed: 1.0,
 };
 
 const bravoDots = (
@@ -27,37 +29,14 @@ const bravoDots = (
 ) => {
   const w = ctx.canvas.width;
   const h = ctx.canvas.height;
-
   const xSpace = Math.floor(w / data.gridNum);
   const ySpace = Math.floor(h / data.gridNum);
 
+  clickEv && _handleClick(data);
+  _setAnimationDirection(data);
+  _setAnimation(data);
+
   ctx.clearRect(0, 0, w, h);
-
-  if (clickEv) {
-    switch (data.variant) {
-      case variant.STATIC:
-      default:
-        data.variant = variant.SHAKE_X;
-        break;
-      case variant.SHAKE_X:
-        data.variant = variant.SHAKE_Y;
-        break;
-      case variant.SHAKE_Y:
-        data.variant = variant.STATIC;
-        break;
-    }
-  }
-
-  // TODO put this delta logic somewhere shared
-
-  if (data.delta === 10) {
-    data.deltaUp = false;
-  }
-  if (data.delta === 0) {
-    data.deltaUp = true;
-  }
-
-  data.delta = data.deltaUp ? data.delta + 1 : data.delta - 1;
 
   for (let x = 1; x < data.gridNum; x++) {
     for (let y = 1; y < data.gridNum; y++) {
@@ -81,3 +60,27 @@ const bravoDots = (
 };
 
 export default bravoDots;
+
+function _handleClick(data: Data): void {
+  switch (data.variant) {
+    case variant.STATIC:
+    default:
+      data.variant = variant.SHAKE_X;
+      break;
+    case variant.SHAKE_X:
+      data.variant = variant.SHAKE_Y;
+      break;
+    case variant.SHAKE_Y:
+      data.variant = variant.STATIC;
+      break;
+  }
+}
+
+function _setAnimationDirection(data: Data): void {
+  data.delta >= 10 && (data.deltaUp = false);
+  data.delta <= 0 && (data.deltaUp = true);
+}
+
+function _setAnimation(data: Data): void {
+  data.delta = data.deltaUp ? data.delta + data.speed : data.delta - data.speed;
+}

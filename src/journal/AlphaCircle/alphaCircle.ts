@@ -4,7 +4,7 @@ interface Data {
   speed: number;
 }
 
-const data: Data = {
+let data: Data = {
   delta: 0,
   deltaUp: true,
   speed: 0.1,
@@ -17,31 +17,9 @@ const alphaCircle = (
   const w = ctx.canvas.width;
   const h = ctx.canvas.height;
 
-  if (clickEv) {
-    switch (data.speed) {
-      case 0.1:
-      default:
-        data.speed = 0.5;
-        break;
-      case 0.5:
-        data.speed = 1.0;
-        break;
-      case 1.0:
-        data.speed = 0.1;
-        break;
-    }
-  }
-
-  // TODO put this delta logic somewhere shared
-
-  if (data.delta >= 10) {
-    data.deltaUp = false;
-  }
-  if (data.delta <= 0) {
-    data.deltaUp = true;
-  }
-
-  data.delta = data.deltaUp ? data.delta + data.speed : data.delta - data.speed;
+  clickEv && _handleClick(data);
+  _setAnimationDirection(data);
+  _setAnimation(data);
 
   ctx.clearRect(0, 0, w, h);
   ctx.fillStyle = "skyblue";
@@ -51,3 +29,27 @@ const alphaCircle = (
 };
 
 export default alphaCircle;
+
+function _handleClick(data: Data): void {
+  switch (data.speed) {
+    case 0.1:
+    default:
+      data.speed = 0.5;
+      break;
+    case 0.5:
+      data.speed = 1.0;
+      break;
+    case 1.0:
+      data.speed = 0.1;
+      break;
+  }
+}
+
+function _setAnimationDirection(data: Data): void {
+  data.delta >= 10 && (data.deltaUp = false);
+  data.delta <= 0 && (data.deltaUp = true);
+}
+
+function _setAnimation(data: Data): void {
+  data.delta = data.deltaUp ? data.delta + data.speed : data.delta - data.speed;
+}
