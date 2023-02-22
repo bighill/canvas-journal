@@ -1,3 +1,5 @@
+import { Mouse } from "../../component/mouse";
+
 interface Data {
   delta: number;
   deltaUp: boolean;
@@ -10,14 +12,13 @@ let data: Data = {
   speed: 0.1,
 };
 
-const alphaCircle = (
-  ctx: CanvasRenderingContext2D,
-  clickEv: MouseEvent | null
-) => {
+const alphaCircle = (ctx: CanvasRenderingContext2D, mouse: Mouse) => {
   const w = ctx.canvas.width;
   const h = ctx.canvas.height;
 
-  clickEv && _handleClick(data);
+  const isClick = mouse.down.x || mouse.down.y;
+
+  isClick && _handleClick(data);
   _setAnimationDirection(data);
   _setAnimation(data);
 

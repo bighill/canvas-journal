@@ -1,7 +1,9 @@
 import { FC, RefObject, useEffect, useRef } from "react";
 
+import mouseDefault, { Mouse } from "./mouse";
+
 interface Props {
-  draw: (ctx: CanvasRenderingContext2D, clickEv: MouseEvent | null) => void;
+  draw: (ctx: CanvasRenderingContext2D, mouse: Mouse) => void;
   mainRef?: RefObject<HTMLDivElement>;
   width: number;
   height: number;
@@ -14,11 +16,15 @@ const Canvas: FC<Props> = ({ draw, width, height }) => {
     const canvas = canvasRef.current as unknown as HTMLCanvasElement;
     let context: CanvasRenderingContext2D | null;
     let animationFrameId: number;
-    let clickEv: MouseEvent | null = null;
+    let mouse = { ...mouseDefault };
 
-    const handleClick = (ev: MouseEvent) => (clickEv = ev);
+    const onMouseDown = (ev: MouseEvent) => (mouse.down = { x: ev.x, y: ev.y });
+    const onMouseMove = (ev: MouseEvent) => (mouse.move = { x: ev.x, y: ev.y });
+    const onMouseUp = (ev: MouseEvent) => (mouse.up = { x: ev.x, y: ev.y });
 
-    canvas.addEventListener("click", handleClick);
+    canvas.addEventListener("mousedown", onMouseDown);
+    canvas.addEventListener("mousemove", onMouseMove);
+    canvas.addEventListener("mouseup", onMouseUp);
 
     const w = width - 1;
     const h = height - 5;
@@ -29,9 +35,9 @@ const Canvas: FC<Props> = ({ draw, width, height }) => {
 
     const render = () => {
       if (context) {
-        draw(context, clickEv);
+        draw(context, mouse);
       }
-      clickEv = null;
+      mouse = { ...mouseDefault };
       animationFrameId = window.requestAnimationFrame(render);
     };
 
@@ -46,7 +52,9 @@ const Canvas: FC<Props> = ({ draw, width, height }) => {
 
     return () => {
       window.cancelAnimationFrame(animationFrameId);
-      canvas.removeEventListener("click", handleClick);
+      canvas.removeEventListener("mousedown", onMouseDown);
+      canvas.removeEventListener("mousemove", onMouseMove);
+      canvas.removeEventListener("mouseup", onMouseUp);
     };
   }, [draw, width, height]);
 
