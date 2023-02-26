@@ -1,6 +1,6 @@
 import { FC, RefObject, useEffect, useRef } from "react";
 
-import mouseDefault, { Mouse } from "./mouse";
+import mouseDefault, { Mouse } from "./util/mouse";
 
 interface Props {
   draw: (ctx: CanvasRenderingContext2D, mouse: Mouse) => void;

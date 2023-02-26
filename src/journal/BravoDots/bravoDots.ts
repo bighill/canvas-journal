@@ -1,4 +1,4 @@
-import { Mouse } from "../../component/mouse";
+import { Mouse } from "../../canvas/util/mouse";
 import dot from "./dot";
 
 const variant: { [x: string]: string } = {

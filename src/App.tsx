@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import Canvas from "./component/Canvas";
+import Canvas from "./canvas/Canvas";
 import alphaCircle from "./journal/AlphaCircle/alphaCircle";
 import bravoDots from "./journal/BravoDots/bravoDots";
 
