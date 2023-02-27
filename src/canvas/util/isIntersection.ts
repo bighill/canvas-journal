@@ -23,22 +23,6 @@ const isIntersection = (p: Props): boolean => {
 export default isIntersection;
 
 const _rectangle = (p: Props): boolean => {
-  /*
-
-
-
-
-    TODO
-    need to get click & drag sorted out
-    go back the codepen
-
-
-
-
-
-  */
-  console.log(p.mouse);
-
   if (p.target.x2 === undefined) return false;
   if (p.target.y2 === undefined) return false;
   if (p.mouse.down.x < p.target.x1) return false;

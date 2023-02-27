@@ -1,7 +1,5 @@
-import rectangle from "../../canvas/rectangle";
-import { AnimElement } from "../../canvas/type";
-import isIntersection from "../../canvas/util/isIntersection";
 import { Mouse } from "../../canvas/util/mouse";
+import verticalSlider from "./verticalSlider";
 
 interface Data {
   delta: number;
@@ -23,14 +21,6 @@ const alphaCircle = (ctx: CanvasRenderingContext2D, mouse: Mouse) => {
   const w = ctx.canvas.width;
   const h = ctx.canvas.height;
 
-  if (!!mouse.down.x && !!mouse.down.y) {
-    data.isMouseDown = true;
-  }
-  if (!!mouse.up.x && !!mouse.up.y) {
-    data.isMouseDown = false;
-    data.isSliderActive = false;
-  }
-
   _setAnimationDirection(data);
   _setAnimation(data);
 
@@ -42,34 +32,8 @@ const alphaCircle = (ctx: CanvasRenderingContext2D, mouse: Mouse) => {
   ctx.arc(w / 2, h / 2, 22 + data.delta * 3, 0, 2 * Math.PI);
   ctx.fill();
 
-  // TODO
-  // - new function: slider
-  // - process object data
-  // - isIntersection
-  let rect: AnimElement = { colorBg: "grey", x1: 0, y1: 0, x2: 50, y2: 50 };
-
-  const isClickRect =
-    data.isMouseDown &&
-    isIntersection({
-      shape: "rectangle",
-      mouse: mouse,
-      target: rect,
-    });
-
-  if (isClickRect) {
-    data.isSliderActive = true;
-  }
-
-  if (data.isSliderActive) {
-    rect = {
-      ...rect,
-      x1: mouse.move.x,
-      y1: mouse.move.y,
-      x2: mouse.move.x + 50,
-      y2: mouse.move.y + 50,
-    };
-  }
-  rectangle(ctx, rect);
+  // TODO make this return a 0-1 value
+  verticalSlider(ctx, mouse);
 };
 
 export default alphaCircle;

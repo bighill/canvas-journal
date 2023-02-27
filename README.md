@@ -9,8 +9,6 @@ npx create-react-app canvas-journal --template typescript
 
 ## TODO
 
-isIntersection()
-
 AlphaCircle
 - vertical slider to control speed
 
