@@ -1,9 +1,9 @@
 import { FC, RefObject, useEffect, useRef } from "react";
 
-import mouseDefault, { Mouse } from "./util/mouse";
+import { Pointer, pointer } from "./util/pointer";
 
 interface Props {
-  draw: (ctx: CanvasRenderingContext2D, mouse: Mouse) => void;
+  draw: (ctx: CanvasRenderingContext2D, pointer: Pointer) => void;
   mainRef?: RefObject<HTMLDivElement>;
   width: number;
   height: number;
@@ -16,15 +16,27 @@ const Canvas: FC<Props> = ({ draw, width, height }) => {
     const canvas = canvasRef.current as unknown as HTMLCanvasElement;
     let context: CanvasRenderingContext2D | null;
     let animationFrameId: number;
-    let mouse = { ...mouseDefault };
+    let pointerData = { ...pointer.default };
 
-    const onMouseDown = (ev: MouseEvent) => (mouse.down = { x: ev.x, y: ev.y });
-    const onMouseMove = (ev: MouseEvent) => (mouse.move = { x: ev.x, y: ev.y });
-    const onMouseUp = (ev: MouseEvent) => (mouse.up = { x: ev.x, y: ev.y });
+    const onPointerDown = (event: MouseEvent | TouchEvent) => {
+      const ev = pointer.getEvent(event);
+      pointerData.down = { x: ev.clientX, y: ev.clientY };
+    };
+    const onPointerMove = (event: MouseEvent | TouchEvent) => {
+      const ev = pointer.getEvent(event);
+      pointerData.move = { x: ev.clientX, y: ev.clientY };
+    };
+    const onPointerUp = (event: MouseEvent | TouchEvent) => {
+      const ev = pointer.getEvent(event);
+      pointerData.up = { x: ev.clientX, y: ev.clientY };
+    };
 
-    canvas.addEventListener("mousedown", onMouseDown);
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mouseup", onMouseUp);
+    canvas.addEventListener("mousedown", onPointerDown);
+    canvas.addEventListener("touchstart", onPointerDown);
+    canvas.addEventListener("mousemove", onPointerMove);
+    canvas.addEventListener("touchmove", onPointerMove);
+    canvas.addEventListener("mouseup", onPointerUp);
+    canvas.addEventListener("touchend", onPointerUp);
 
     const w = width - 1;
     const h = height - 5;
@@ -35,9 +47,9 @@ const Canvas: FC<Props> = ({ draw, width, height }) => {
 
     const render = () => {
       if (context) {
-        draw(context, mouse);
+        draw(context, pointerData);
       }
-      mouse = { ...mouseDefault };
+      pointerData = { ...pointer.default };
       animationFrameId = window.requestAnimationFrame(render);
     };
 
@@ -52,9 +64,9 @@ const Canvas: FC<Props> = ({ draw, width, height }) => {
 
     return () => {
       window.cancelAnimationFrame(animationFrameId);
-      canvas.removeEventListener("mousedown", onMouseDown);
-      canvas.removeEventListener("mousemove", onMouseMove);
-      canvas.removeEventListener("mouseup", onMouseUp);
+      canvas.removeEventListener("mousedown", onPointerDown);
+      canvas.removeEventListener("mousemove", onPointerMove);
+      canvas.removeEventListener("mouseup", onPointerUp);
     };
   }, [draw, width, height]);
 

@@ -1,4 +1,4 @@
-import { Mouse } from "../../canvas/util/mouse";
+import { Pointer } from "../../canvas/util/pointer";
 import dot from "./dot";
 
 const variant: { [x: string]: string } = {
@@ -24,13 +24,13 @@ const data: Data = {
   speed: 1.0,
 };
 
-const bravoDots = (ctx: CanvasRenderingContext2D, mouse: Mouse) => {
+const bravoDots = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
   const w = ctx.canvas.width;
   const h = ctx.canvas.height;
   const xSpace = Math.floor(w / data.gridNum);
   const ySpace = Math.floor(h / data.gridNum);
 
-  const isClick = mouse.down.x || mouse.down.y;
+  const isClick = pointer.down.x || pointer.down.y;
 
   isClick && _handleClick(data);
   _setAnimationDirection(data);

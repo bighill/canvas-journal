@@ -1,5 +1,5 @@
 import { AnimElement } from "../type";
-import { Mouse } from "./mouse";
+import { Pointer } from "./pointer";
 
 export const shapes = {
   RECTANGLE: "rectangle",
@@ -7,7 +7,7 @@ export const shapes = {
 
 interface Props {
   shape: string;
-  mouse: Mouse;
+  pointer: Pointer;
   target: AnimElement;
 }
 
@@ -25,9 +25,9 @@ export default isIntersection;
 const _rectangle = (p: Props): boolean => {
   if (p.target.x2 === undefined) return false;
   if (p.target.y2 === undefined) return false;
-  if (p.mouse.down.x < p.target.x1) return false;
-  if (p.mouse.down.x > p.target.x2) return false;
-  if (p.mouse.down.y < p.target.y1) return false;
-  if (p.mouse.down.y > p.target.y2) return false;
+  if (p.pointer.down.x < p.target.x1) return false;
+  if (p.pointer.down.x > p.target.x2) return false;
+  if (p.pointer.down.y < p.target.y1) return false;
+  if (p.pointer.down.y > p.target.y2) return false;
   return true;
 };

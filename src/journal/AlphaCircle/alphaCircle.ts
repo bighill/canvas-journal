@@ -1,23 +1,19 @@
-import { Mouse } from "../../canvas/util/mouse";
+import { Pointer } from "../../canvas/util/pointer";
 import verticalSlider from "./verticalSlider";
 
 interface Data {
   delta: number;
   deltaUp: boolean;
-  isMouseDown: boolean;
-  isSliderActive: boolean;
   speed: number;
 }
 
 let data: Data = {
   delta: 0,
   deltaUp: true,
-  isMouseDown: false,
-  isSliderActive: false,
   speed: 0.1,
 };
 
-const alphaCircle = (ctx: CanvasRenderingContext2D, mouse: Mouse) => {
+const alphaCircle = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
   const w = ctx.canvas.width;
   const h = ctx.canvas.height;
 
@@ -33,7 +29,7 @@ const alphaCircle = (ctx: CanvasRenderingContext2D, mouse: Mouse) => {
   ctx.fill();
 
   // TODO make this return a 0-1 value
-  verticalSlider(ctx, mouse);
+  verticalSlider(ctx, pointer);
 };
 
 export default alphaCircle;

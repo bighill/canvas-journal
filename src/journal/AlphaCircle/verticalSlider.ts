@@ -1,7 +1,7 @@
 import rectangle from "../../canvas/rectangle";
 import { AnimElement } from "../../canvas/type";
 import isIntersection from "../../canvas/util/isIntersection";
-import { Mouse } from "../../canvas/util/mouse";
+import { Pointer } from "../../canvas/util/pointer";
 
 interface Data {
   x1: number;
@@ -9,7 +9,7 @@ interface Data {
   x2: number;
   y2: number;
   sliderY: number;
-  isMouseStillDown: boolean;
+  isPointerStillDown: boolean;
   isSliderActive: boolean;
 }
 
@@ -19,29 +19,29 @@ const data: Data = {
   x2: 0,
   y2: 0,
   sliderY: 0,
-  isMouseStillDown: false,
+  isPointerStillDown: false,
   isSliderActive: false,
 };
 
-const verticalSlider = (ctx: CanvasRenderingContext2D, mouse: Mouse) => {
-  const isMouseMove = !!mouse.move.x && !!mouse.move.y;
-  const isMouseDown = !!mouse.down.x && !!mouse.down.y;
-  const isMouseUp = !!mouse.up.x && !!mouse.up.y;
+const verticalSlider = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
+  const isPointerMove = !!pointer.move.x && !!pointer.move.y;
+  const isPointerDown = !!pointer.down.x && !!pointer.down.y;
+  const isPointerUp = !!pointer.up.x && !!pointer.up.y;
 
   let isClickRect = false;
 
   // do move
-  if (data.isSliderActive && isMouseMove) {
+  if (data.isSliderActive && isPointerMove) {
     /*
 
 
 
 
 
-    TODO
+    TODO improve dnd
 
-    don't just set slider to equal mouse y
-    find the amount mouse moved
+    don't just set slider to equal pointer y
+    find the amount pointer moved
     and add that delta to prev sliderY
     
 
@@ -49,7 +49,7 @@ const verticalSlider = (ctx: CanvasRenderingContext2D, mouse: Mouse) => {
 
 
     */
-    data.sliderY = mouse.move.y;
+    data.sliderY = pointer.move.y;
   }
 
   // rect config
@@ -62,24 +62,24 @@ const verticalSlider = (ctx: CanvasRenderingContext2D, mouse: Mouse) => {
   };
 
   // on down
-  if (isMouseDown) {
-    data.isMouseStillDown = true;
+  if (isPointerDown) {
+    data.isPointerStillDown = true;
 
     isClickRect = isIntersection({
       shape: "rectangle",
-      mouse: mouse,
+      pointer: pointer,
       target: rect,
     });
   }
 
   // on up
-  if (isMouseUp) {
-    data.isMouseStillDown = false;
+  if (isPointerUp) {
+    data.isPointerStillDown = false;
     data.isSliderActive = false;
   }
 
   // set slider active
-  if (data.isMouseStillDown && isClickRect) {
+  if (data.isPointerStillDown && isClickRect) {
     data.isSliderActive = true;
   }
 
