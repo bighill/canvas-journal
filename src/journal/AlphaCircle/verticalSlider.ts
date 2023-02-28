@@ -10,7 +10,7 @@ interface Data {
   y2: number;
   sliderY: number;
   isPointerStillDown: boolean;
-  isSliderActive: boolean;
+  movingPointerY: number;
 }
 
 const data: Data = {
@@ -20,7 +20,15 @@ const data: Data = {
   y2: 0,
   sliderY: 0,
   isPointerStillDown: false,
-  isSliderActive: false,
+  movingPointerY: 0,
+};
+
+const rectDefault: AnimElement = {
+  colorBg: "grey",
+  x1: 0,
+  y1: 0,
+  x2: 50,
+  y2: 50,
 };
 
 const verticalSlider = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
@@ -29,35 +37,13 @@ const verticalSlider = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
   const isPointerUp = !!pointer.up.x && !!pointer.up.y;
 
   let isClickRect = false;
+  let rect: AnimElement = rectDefault;
 
-  // do move
-  if (data.isSliderActive && isPointerMove) {
-    /*
-
-
-
-
-
-    TODO improve dnd
-
-    don't just set slider to equal pointer y
-    find the amount pointer moved
-    and add that delta to prev sliderY
-    
-
-
-
-
-    */
-    data.sliderY = pointer.move.y;
-  }
-
-  // rect config
-  const rect: AnimElement = {
-    colorBg: "grey",
-    x1: 0,
+  // NOTE because of the order of things,
+  // this will get rendered based on data from the prev frame.
+  rect = {
+    ...rect,
     y1: data.sliderY,
-    x2: 50,
     y2: data.sliderY + 50,
   };
 
@@ -75,12 +61,20 @@ const verticalSlider = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
   // on up
   if (isPointerUp) {
     data.isPointerStillDown = false;
-    data.isSliderActive = false;
+    data.movingPointerY = 0;
   }
 
-  // set slider active
-  if (data.isPointerStillDown && isClickRect) {
-    data.isSliderActive = true;
+  // activate slider
+  if (isClickRect) {
+    data.movingPointerY = pointer.down.y;
+  }
+
+  // slider move
+  if (data.isPointerStillDown && data.movingPointerY && isPointerMove) {
+    const delta = pointer.move.y - data.movingPointerY;
+    const newSliderY = data.sliderY + delta;
+    data.sliderY = newSliderY;
+    data.movingPointerY = pointer.move.y;
   }
 
   rectangle(ctx, rect);
