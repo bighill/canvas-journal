@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
-import Canvas from "./component/Canvas";
+import Canvas from "./canvas/Canvas";
 import alphaCircle from "./journal/AlphaCircle/alphaCircle";
 import bravoDots from "./journal/BravoDots/bravoDots";
+import charlieSlider from "./journal/CharlieSlider/charlieSlider";
 
 function App() {
   const mainRef = useRef<HTMLDivElement>(null);
@@ -32,6 +33,9 @@ function App() {
         {activeJournal === "BravoDots" && (
           <Canvas draw={bravoDots} width={mainWidth} height={mainHeight} />
         )}
+        {activeJournal === "CharlieSlider" && (
+          <Canvas draw={charlieSlider} width={mainWidth} height={mainHeight} />
+        )}
       </main>
 
       <footer>
@@ -43,6 +47,9 @@ function App() {
         </span>
         <span className="btn" onClick={() => setActiveJournal("BravoDots")}>
           BravoDots
+        </span>
+        <span className="btn" onClick={() => setActiveJournal("CharlieSlider")}>
+          CharlieSlider
         </span>
       </footer>
     </>

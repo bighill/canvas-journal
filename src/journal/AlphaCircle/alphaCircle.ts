@@ -1,4 +1,4 @@
-import { Mouse } from "../../component/mouse";
+import { Pointer } from "../../canvas/util/pointer";
 
 interface Data {
   delta: number;
@@ -12,17 +12,20 @@ let data: Data = {
   speed: 0.1,
 };
 
-const alphaCircle = (ctx: CanvasRenderingContext2D, mouse: Mouse) => {
+const alphaCircle = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
   const w = ctx.canvas.width;
   const h = ctx.canvas.height;
+  const isClick = pointer.down.x || pointer.down.y;
 
-  const isClick = mouse.down.x || mouse.down.y;
-
-  isClick && _handleClick(data);
   _setAnimationDirection(data);
   _setAnimation(data);
 
+  // TODO control speed via dnd directly on the canvas
+  isClick && _handleClick(data);
+
   ctx.clearRect(0, 0, w, h);
+
+  // TODO new canvas component: circle w/prop type AnimElement
   ctx.fillStyle = "skyblue";
   ctx.beginPath();
   ctx.arc(w / 2, h / 2, 22 + data.delta * 3, 0, 2 * Math.PI);
