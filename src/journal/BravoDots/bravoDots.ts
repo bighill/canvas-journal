@@ -1,5 +1,6 @@
+import { AnimElement, defaultAnimElement } from "../../canvas/AnimElement";
+import circle from "../../canvas/circle";
 import { Pointer } from "../../canvas/util/pointer";
-import dot from "./dot";
 
 const variant: { [x: string]: string } = {
   STATIC: "static",
@@ -23,11 +24,18 @@ const data: Data = {
   speed: 1.0,
 };
 
+const defaultDotEl: AnimElement = {
+  ...defaultAnimElement,
+  colorBg: "skyblue",
+  radius: 3,
+};
+
 const bravoDots = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
   const w = ctx.canvas.width;
   const h = ctx.canvas.height;
   const xSpace = Math.floor(w / data.gridNum);
   const ySpace = Math.floor(h / data.gridNum);
+  let el: AnimElement;
 
   const isClick = pointer.down.x || pointer.down.y;
 
@@ -37,20 +45,34 @@ const bravoDots = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
 
   ctx.clearRect(0, 0, w, h);
 
-  // TODO use the circle component (when ready) to replace dot()
   // TODO dnd-able dot that affects nearby dots
   for (let x = 1; x < data.gridNum; x++) {
     for (let y = 1; y < data.gridNum; y++) {
       switch (data.variant) {
         case variant.STATIC:
         default:
-          dot({ ctx, x: x * xSpace, y: y * ySpace });
+          el = {
+            ...defaultDotEl,
+            x1: x * xSpace,
+            y1: y * ySpace,
+          };
+          circle(ctx, el);
           break;
         case variant.SHAKE_X:
-          dot({ ctx, x: x * xSpace + data.delta, y: y * ySpace });
+          el = {
+            ...defaultDotEl,
+            x1: x * xSpace + data.delta,
+            y1: y * ySpace,
+          };
+          circle(ctx, el);
           break;
         case variant.SHAKE_Y:
-          dot({ ctx, x: x * xSpace, y: y * ySpace + data.delta });
+          el = {
+            ...defaultDotEl,
+            x1: x * xSpace,
+            y1: y * ySpace + data.delta,
+          };
+          circle(ctx, el);
           break;
       }
     }

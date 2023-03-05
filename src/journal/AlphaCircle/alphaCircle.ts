@@ -2,6 +2,8 @@ import { AnimElement, defaultAnimElement } from "../../canvas/AnimElement";
 import circle from "../../canvas/circle";
 import { Pointer } from "../../canvas/util/pointer";
 
+// TODO consider putting Data & data in react state
+
 interface Data {
   delta: number;
   deltaUp: boolean;
