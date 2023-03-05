@@ -1,3 +1,5 @@
+import { AnimElement, defaultAnimElement } from "../../canvas/AnimElement";
+import circle from "../../canvas/circle";
 import { Pointer } from "../../canvas/util/pointer";
 
 interface Data {
@@ -25,11 +27,15 @@ const alphaCircle = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
 
   ctx.clearRect(0, 0, w, h);
 
-  // TODO new canvas component: circle w/prop type AnimElement
-  ctx.fillStyle = "skyblue";
-  ctx.beginPath();
-  ctx.arc(w / 2, h / 2, 22 + data.delta * 3, 0, 2 * Math.PI);
-  ctx.fill();
+  const el: AnimElement = {
+    ...defaultAnimElement,
+    colorBg: "skyblue",
+    x1: w / 2,
+    y1: h / 2,
+    radius: 22 + data.delta * 3,
+  };
+
+  circle(ctx, el);
 };
 
 export default alphaCircle;

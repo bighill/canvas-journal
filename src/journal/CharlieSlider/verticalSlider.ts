@@ -4,20 +4,12 @@ import isIntersection from "../../canvas/util/isIntersection";
 import { Pointer } from "../../canvas/util/pointer";
 
 interface Data {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
   sliderY: number;
   isPointerStillDown: boolean;
   movingPointerY: number;
 }
 
 const data: Data = {
-  x1: 0,
-  y1: 0,
-  x2: 0,
-  y2: 0,
   sliderY: 0,
   isPointerStillDown: false,
   movingPointerY: 0,
@@ -35,6 +27,7 @@ const verticalSlider = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
   // this will get rendered based on data from the prev frame.
   rect = {
     ...rect,
+    x2: 50,
     y1: data.sliderY,
     y2: data.sliderY + 50,
   };

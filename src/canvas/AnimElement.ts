@@ -3,13 +3,15 @@ export interface AnimElement {
   y1: number;
   x2: number;
   y2: number;
+  radius: number;
   colorBg: string;
 }
 
 export const defaultAnimElement: AnimElement = {
-  colorBg: "grey",
   x1: 0,
   y1: 0,
-  x2: 50,
-  y2: 50,
+  x2: 0,
+  y2: 0,
+  radius: 0,
+  colorBg: "grey",
 };

@@ -5,7 +5,6 @@ const variant: { [x: string]: string } = {
   STATIC: "static",
   SHAKE_X: "shake_x",
   SHAKE_Y: "shake_y",
-  REVOLVE: "revolve",
 };
 
 interface Data {
@@ -52,9 +51,6 @@ const bravoDots = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
           break;
         case variant.SHAKE_Y:
           dot({ ctx, x: x * xSpace, y: y * ySpace + data.delta });
-          break;
-        case variant.REVOLVE:
-          // TODO revolving dots
           break;
       }
     }
