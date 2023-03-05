@@ -38,6 +38,7 @@ const bravoDots = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
 
   ctx.clearRect(0, 0, w, h);
 
+  // TODO use the circle component (when ready) to replace dot()
   // TODO dnd-able dot that affects nearby dots
   for (let x = 1; x < data.gridNum; x++) {
     for (let y = 1; y < data.gridNum; y++) {

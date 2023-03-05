@@ -1,4 +1,4 @@
-import { AnimElement } from "../type";
+import { AnimElement } from "../AnimElement";
 import { Pointer } from "./pointer";
 
 export const shapes = {

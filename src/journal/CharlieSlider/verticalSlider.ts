@@ -1,5 +1,5 @@
 import rectangle from "../../canvas/rectangle";
-import { AnimElement } from "../../canvas/type";
+import { AnimElement, defaultAnimElement } from "../../canvas/AnimElement";
 import isIntersection from "../../canvas/util/isIntersection";
 import { Pointer } from "../../canvas/util/pointer";
 
@@ -23,21 +23,13 @@ const data: Data = {
   movingPointerY: 0,
 };
 
-const rectDefault: AnimElement = {
-  colorBg: "grey",
-  x1: 0,
-  y1: 0,
-  x2: 50,
-  y2: 50,
-};
-
 const verticalSlider = (ctx: CanvasRenderingContext2D, pointer: Pointer) => {
   const isPointerMove = !!pointer.move.x && !!pointer.move.y;
   const isPointerDown = !!pointer.down.x && !!pointer.down.y;
   const isPointerUp = !!pointer.up.x && !!pointer.up.y;
 
   let isClickRect = false;
-  let rect: AnimElement = rectDefault;
+  let rect: AnimElement = defaultAnimElement;
 
   // NOTE because of the order of things,
   // this will get rendered based on data from the prev frame.
